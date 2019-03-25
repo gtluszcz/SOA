@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+   <f:view>
+   <h:form>
+      <h:outputLabel for="author">Author:</h:outputLabel>
+      <h:inputText value="#{Search.filter.author}" id="author"/>
+
+      <br />
+
+      <h:outputLabel for="title">Title:</h:outputLabel>
+      <h:inputText value="#{Search.filter.title}" id="title"/>
+
+      <br />
+
+      <h:outputLabel for="priceMin">Min Price:</h:outputLabel>
+      <h:inputText value="#{Search.filter.priceLow}" id="priceMin"/>
+
+      <h:outputLabel for="priceMax">Max Price:</h:outputLabel>
+      <h:inputText value="#{Search.filter.priceHigh}" id="priceMax"/>
+
+      <br />
+
+      <h:outputLabel for="pagesMin">Min Pages:</h:outputLabel>
+      <h:inputText value="#{Search.filter.pagesLow}" id="pagesMin"/>
+
+      <h:outputLabel for="pagesMax">Max Pages:</h:outputLabel>
+      <h:inputText value="#{Search.filter.pagesHigh}" id="pagesMax"/>
+
+
+      <br />
+
+      <h:selectOneMenu value="#{Search.filter.genre}">
+         <f:selectItem itemValue="All" itemLabel="All" />
+         <f:selectItem itemValue="Fantasy" itemLabel="Fantasy" />
+         <f:selectItem itemValue="Romance" itemLabel="Romance" />
+         <f:selectItem itemValue="Thriller" itemLabel="Thriller" />
+         <f:selectItem itemValue="Mystery" itemLabel="Mystery" />
+      </h:selectOneMenu>
+
+      <br />
+
+      <h:selectOneMenu value="#{Search.filter.currencyToDisplay}">
+         <f:selectItem itemValue="Original" itemLabel="Original" />
+         <f:selectItem itemValue="PLN" itemLabel="pln" />
+      </h:selectOneMenu>
+
+      <br />
+
+      <h:selectOneMenu value="#{Search.filter.currency}">
+         <f:selectItem itemValue="All" itemLabel="All" />
+         <f:selectItem itemValue="USD" itemLabel="USD" />
+         <f:selectItem itemValue="PLN" itemLabel="PLN" />
+         <f:selectItem itemValue="Euro" itemLabel="Euro" />
+      </h:selectOneMenu>
+
+      <br />
+      Show:
+      <br />
+      <h:selectBooleanCheckbox value="#{Search.showList.showTitle}" /> Title
+      <h:selectBooleanCheckbox value="#{Search.showList.showAuthor}" /> Author
+      <h:selectBooleanCheckbox value="#{Search.showList.showGenre}" /> Genre
+      <h:selectBooleanCheckbox value="#{Search.showList.showPrice}" /> Price
+      <h:selectBooleanCheckbox value="#{Search.showList.showCurrency}" /> Currency
+      <h:selectBooleanCheckbox value="#{Search.showList.showPages}" /> Pages
+
+
+      <h:dataTable id="results" value="#{Search.getSearchResults()}" var="book">
+         <h:column>
+            <!-- column header -->
+            <f:facet name="header">Selected</f:facet>
+            <!-- row record -->
+            <h:selectBooleanCheckbox value="#{book.selected}" />
+         </h:column>
+
+         <h:column rendered="#{Search.showList.showTitle}">
+            <!-- column header -->
+            <f:facet name="header">Title</f:facet>
+            <!-- row record -->
+            #{book.getTitle()}
+         </h:column>
+
+         <h:column rendered="#{Search.showList.showAuthor}">
+            <!-- column header -->
+            <f:facet name="header">Author</f:facet>
+            <!-- row record -->
+            #{book.getAuthor()}
+         </h:column>
+
+         <h:column rendered="#{Search.showList.showGenre}">
+            <!-- column header -->
+            <f:facet name="header">Genre</f:facet>
+            <!-- row record -->
+            #{book.getGenre()}
+         </h:column>
+
+         <h:column rendered="#{Search.showList.showPrice}">
+            <!-- column header -->
+            <f:facet name="header">Price</f:facet>
+            <!-- row record -->
+            #{book.getDisplayedPrice()}
+         </h:column>
+
+         <h:column rendered="#{Search.showList.showCurrency}">
+            <!-- column header -->
+            <f:facet name="header">Currency</f:facet>
+            <!-- row record -->
+            #{book.getDisplayedCurrency()}
+         </h:column>
+
+         <h:column rendered="#{Search.showList.showPages}">
+            <!-- column header -->
+            <f:facet name="header">Pages number</f:facet>
+            <!-- row record -->
+            #{book.getPages()}
+         </h:column>
+
+      </h:dataTable>
+      <h:commandButton update="results" value="Search" />
+      <h:commandButton action="#{Search.sumUp()}"  value="Check out" />
+   </h:form>
+
+   <h:form>
+      <p id="totalSum">total Sum: #{Search.totalSum}</p>
+      <p id="totalPrice">total Price in PLN: #{Search.totalPrice}</p>
+   </h:form>
+
+   </f:view>
+</html>
