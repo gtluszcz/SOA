@@ -5,31 +5,44 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+   <h:head></h:head>
    <f:view>
-   <h:form>
+   <h:form id="lol">
       <h:outputLabel for="author">Author:</h:outputLabel>
-      <h:inputText value="#{Search.filter.author}" id="author"/>
+      <h:inputText value="#{Search.filter.author}" id="author">
+         <f:ajax event="blur" render="searchResultTable"/>
+      </h:inputText>
 
       <br />
 
       <h:outputLabel for="title">Title:</h:outputLabel>
-      <h:inputText value="#{Search.filter.title}" id="title"/>
+      <h:inputText value="#{Search.filter.title}" id="title">
+         <f:ajax event="blur" render="searchResultTable"/>
+      </h:inputText>
 
       <br />
 
       <h:outputLabel for="priceMin">Min Price:</h:outputLabel>
-      <h:inputText value="#{Search.filter.priceLow}" id="priceMin"/>
+      <h:inputText value="#{Search.filter.priceLow}" id="priceMin">
+         <f:ajax event="blur" render="searchResultTable"/>
+      </h:inputText>
 
       <h:outputLabel for="priceMax">Max Price:</h:outputLabel>
-      <h:inputText value="#{Search.filter.priceHigh}" id="priceMax"/>
+      <h:inputText value="#{Search.filter.priceHigh}" id="priceMax">
+         <f:ajax event="blur" render="searchResultTable"/>
+      </h:inputText>
 
       <br />
 
       <h:outputLabel for="pagesMin">Min Pages:</h:outputLabel>
-      <h:inputText value="#{Search.filter.pagesLow}" id="pagesMin"/>
+      <h:inputText value="#{Search.filter.pagesLow}" id="pagesMin">
+         <f:ajax event="blur" render="searchResultTable"/>
+      </h:inputText>
 
       <h:outputLabel for="pagesMax">Max Pages:</h:outputLabel>
-      <h:inputText value="#{Search.filter.pagesHigh}" id="pagesMax"/>
+      <h:inputText value="#{Search.filter.pagesHigh}" id="pagesMax">
+         <f:ajax event="blur" render="searchResultTable"/>
+      </h:inputText>
 
 
       <br />
@@ -40,6 +53,7 @@
          <f:selectItem itemValue="Romance" itemLabel="Romance" />
          <f:selectItem itemValue="Thriller" itemLabel="Thriller" />
          <f:selectItem itemValue="Mystery" itemLabel="Mystery" />
+         <f:ajax event="change" render="searchResultTable"/>
       </h:selectOneMenu>
 
       <br />
@@ -47,6 +61,7 @@
       <h:selectOneMenu value="#{Search.filter.currencyToDisplay}">
          <f:selectItem itemValue="Original" itemLabel="Original" />
          <f:selectItem itemValue="PLN" itemLabel="pln" />
+         <f:ajax event="change" render="searchResultTable"/>
       </h:selectOneMenu>
 
       <br />
@@ -56,70 +71,84 @@
          <f:selectItem itemValue="USD" itemLabel="USD" />
          <f:selectItem itemValue="PLN" itemLabel="PLN" />
          <f:selectItem itemValue="Euro" itemLabel="Euro" />
+         <f:ajax event="change" render="searchResultTable"/>
       </h:selectOneMenu>
 
       <br />
       Show:
       <br />
-      <h:selectBooleanCheckbox value="#{Search.showList.showTitle}" /> Title
-      <h:selectBooleanCheckbox value="#{Search.showList.showAuthor}" /> Author
-      <h:selectBooleanCheckbox value="#{Search.showList.showGenre}" /> Genre
-      <h:selectBooleanCheckbox value="#{Search.showList.showPrice}" /> Price
-      <h:selectBooleanCheckbox value="#{Search.showList.showCurrency}" /> Currency
-      <h:selectBooleanCheckbox value="#{Search.showList.showPages}" /> Pages
+      <h:selectBooleanCheckbox value="#{Search.showList.showTitle}" >
+         <f:ajax event="change" render="searchResultTable"/>
+      </h:selectBooleanCheckbox> Title
+      <h:selectBooleanCheckbox value="#{Search.showList.showAuthor}" >
+         <f:ajax event="change" render="searchResultTable"/>
+      </h:selectBooleanCheckbox> Author
+      <h:selectBooleanCheckbox value="#{Search.showList.showGenre}" >
+         <f:ajax event="change" render="searchResultTable"/>
+      </h:selectBooleanCheckbox> Genre
+      <h:selectBooleanCheckbox value="#{Search.showList.showPrice}" >
+         <f:ajax event="change" render="searchResultTable" />
+      </h:selectBooleanCheckbox> Price
+      <h:selectBooleanCheckbox value="#{Search.showList.showCurrency}" >
+         <f:ajax event="change" render="searchResultTable"/>
+      </h:selectBooleanCheckbox> Currency
+      <h:selectBooleanCheckbox value="#{Search.showList.showPages}" >
+         <f:ajax event="change" render="searchResultTable"/>
+      </h:selectBooleanCheckbox> Pages
 
+      <h:panelGroup id="searchResultTable">
+         <h:dataTable id="results" value="#{Search.getSearchResults()}" var="book">
+            <h:column>
+               <!-- column header -->
+               <f:facet name="header">Selected</f:facet>
+               <!-- row record -->
+               <h:selectBooleanCheckbox value="#{book.selected}" />
+            </h:column>
 
-      <h:dataTable id="results" value="#{Search.getSearchResults()}" var="book">
-         <h:column>
-            <!-- column header -->
-            <f:facet name="header">Selected</f:facet>
-            <!-- row record -->
-            <h:selectBooleanCheckbox value="#{book.selected}" />
-         </h:column>
+            <h:column rendered="#{Search.showList.showTitle}">
+               <!-- column header -->
+               <f:facet name="header">Title</f:facet>
+               <!-- row record -->
+               #{book.getTitle()}
+            </h:column>
 
-         <h:column rendered="#{Search.showList.showTitle}">
-            <!-- column header -->
-            <f:facet name="header">Title</f:facet>
-            <!-- row record -->
-            #{book.getTitle()}
-         </h:column>
+            <h:column rendered="#{Search.showList.showAuthor}">
+               <!-- column header -->
+               <f:facet name="header">Author</f:facet>
+               <!-- row record -->
+               #{book.getAuthor()}
+            </h:column>
 
-         <h:column rendered="#{Search.showList.showAuthor}">
-            <!-- column header -->
-            <f:facet name="header">Author</f:facet>
-            <!-- row record -->
-            #{book.getAuthor()}
-         </h:column>
+            <h:column rendered="#{Search.showList.showGenre}">
+               <!-- column header -->
+               <f:facet name="header">Genre</f:facet>
+               <!-- row record -->
+               #{book.getGenre()}
+            </h:column>
 
-         <h:column rendered="#{Search.showList.showGenre}">
-            <!-- column header -->
-            <f:facet name="header">Genre</f:facet>
-            <!-- row record -->
-            #{book.getGenre()}
-         </h:column>
+            <h:column rendered="#{Search.showList.showPrice}">
+               <!-- column header -->
+               <f:facet name="header">Price</f:facet>
+               <!-- row record -->
+               #{book.getDisplayedPrice()}
+            </h:column>
 
-         <h:column rendered="#{Search.showList.showPrice}">
-            <!-- column header -->
-            <f:facet name="header">Price</f:facet>
-            <!-- row record -->
-            #{book.getDisplayedPrice()}
-         </h:column>
+            <h:column rendered="#{Search.showList.showCurrency}">
+               <!-- column header -->
+               <f:facet name="header">Currency</f:facet>
+               <!-- row record -->
+               #{book.getDisplayedCurrency()}
+            </h:column>
 
-         <h:column rendered="#{Search.showList.showCurrency}">
-            <!-- column header -->
-            <f:facet name="header">Currency</f:facet>
-            <!-- row record -->
-            #{book.getDisplayedCurrency()}
-         </h:column>
+            <h:column rendered="#{Search.showList.showPages}">
+               <!-- column header -->
+               <f:facet name="header">Pages number</f:facet>
+               <!-- row record -->
+               #{book.getPages()}
+            </h:column>
 
-         <h:column rendered="#{Search.showList.showPages}">
-            <!-- column header -->
-            <f:facet name="header">Pages number</f:facet>
-            <!-- row record -->
-            #{book.getPages()}
-         </h:column>
-
-      </h:dataTable>
+         </h:dataTable>
+      </h:panelGroup>
       <h:commandButton update="results" value="Search" />
       <h:commandButton action="#{Search.sumUp()}"  value="Check out" />
    </h:form>
