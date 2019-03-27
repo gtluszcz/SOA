@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+   <h:head/>
+
+   <h:form id="lol">
+      <h:outputLabel for="name">Name:</h:outputLabel>
+      <h:inputText value="#{Survey.person.name}"
+                   id="name"
+                   required="true"
+                   requiredMessage="Name is mandatory">
+         <!--<f:ajax event="blur" render=""/>-->
+      </h:inputText>
+
+      <br />
+
+      <h:outputLabel for="email">E-mail:</h:outputLabel>
+      <h:inputText value="#{Survey.person.email}"
+                   id="email"
+                   required="true"
+                   requiredMessage="Email is mandatory">
+         <!--<f:ajax event="blur" render=""/>-->
+         <f:validateRegex pattern="[a-zA-Z0-9]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+" for="email" />
+      </h:inputText>
+
+      <br />
+
+      <h:outputLabel for="age">Age:</h:outputLabel>
+      <h:inputText value="#{Survey.person.age}" id="age" required="true" requiredMessage="Age is mandatory">
+         <!--<f:ajax event="blur" render=""/>-->
+         <f:validateDoubleRange minimum="10" maximum="100" for="age"/>
+      </h:inputText>
+
+      <br />
+
+      <h:outputLabel for="sex">Sex:</h:outputLabel>
+      <h:selectOneMenu id="sex" value="#{Survey.person.sex}" required="true"
+                   requiredMessage="Sex needs to be defined">
+         <f:selectItem itemValue="" itemLabel="undefined" />
+         <f:selectItem itemValue="m" itemLabel="Man" />
+         <f:selectItem itemValue="w" itemLabel="Woman" />
+         <f:ajax event="change" render="sexDependent sexDependent2"/>
+      </h:selectOneMenu>
+
+      <br />
+
+      <h:outputLabel for="education">Education:</h:outputLabel>
+      <h:inputText value="#{Survey.person.education}" id="education">
+         <!--<f:ajax event="blur" render=""/>-->
+      </h:inputText>
+
+      <br />
+
+      <h:outputLabel for="height">Height:</h:outputLabel>
+      <h:inputText value="#{Survey.person.height}" id="height" validator="#{Survey.validateHeight}">
+         <!--<f:ajax event="blur" render=""/>-->
+      </h:inputText>
+
+      <br />
+
+      <h:panelGroup id="sexDependent">
+         <h:panelGroup rendered="#{Survey.isMan()}">
+
+            <h:outputLabel for="chest">Chest size:</h:outputLabel>
+            <h:inputText value="#{Survey.person.chest}" id="chest" required="true" requiredMessage="chest is mandatory">
+               <!--<f:ajax event="blur" render=""/>-->
+               <f:validateDoubleRange minimum="80" maximum="180" for="chest"/>
+            </h:inputText>
+
+            <br />
+
+            <h:outputLabel for="belly">Belly size:</h:outputLabel>
+            <h:inputText value="#{Survey.person.belly}" id="belly" required="true" requiredMessage="belly is mandatory">
+               <!--<f:ajax event="blur" render=""/>-->
+               <f:validateDoubleRange minimum="40" maximum="200" for="belly"/>
+            </h:inputText>
+
+         </h:panelGroup>
+
+         <h:panelGroup rendered="#{Survey.isWoman()}">
+
+            <h:outputLabel for="breast">Breast size:</h:outputLabel>
+            <h:inputText value="#{Survey.person.breast}" id="breast" required="true" requiredMessage="breast is mandatory">
+               <!--<f:ajax event="blur" render=""/>-->
+               <f:validateDoubleRange minimum="10" maximum="100" for="breast"/>
+            </h:inputText>
+
+            <br />
+
+            <h:outputLabel for="cupSize">Cup size:</h:outputLabel>
+            <h:selectOneMenu id="cupSize" value="#{Survey.person.cupSize}" required="true"
+                             requiredMessage="Cup size needs to be defined">
+               <f:selectItem itemValue="" itemLabel="undefined" />
+               <f:selectItem itemValue="A" itemLabel="A" />
+               <f:selectItem itemValue="B" itemLabel="B" />
+               <f:selectItem itemValue="C" itemLabel="C" />
+               <f:selectItem itemValue="D" itemLabel="D" />
+               <f:selectItem itemValue="E" itemLabel="E" />
+            </h:selectOneMenu>
+
+            <br />
+
+            <h:outputLabel for="waist">Waist size:</h:outputLabel>
+            <h:inputText value="#{Survey.person.waist}" id="waist" required="true" requiredMessage="waist is mandatory">
+               <!--<f:ajax event="blur" render=""/>-->
+               <f:validateDoubleRange minimum="40" maximum="120" for="waist"/>
+            </h:inputText>
+
+            <br />
+
+            <h:outputLabel for="hips">Hips size:</h:outputLabel>
+            <h:inputText value="#{Survey.person.hips}" id="hips" required="true" requiredMessage="hips is mandatory">
+               <!--<f:ajax event="blur" render=""/>-->
+               <f:validateDoubleRange minimum="30" maximum="120" for="hips"/>
+            </h:inputText>
+
+
+         </h:panelGroup>
+      </h:panelGroup>
+
+      <br />
+
+      <h:panelGroup id="secondPhase" >
+         <h:panelGroup rendered="#{Survey.secondPhase}">
+
+
+         <h:outputLabel for="q1">Ile jesteś w stanie przeznaczyc miesięcznie na zakup ubrania?</h:outputLabel>
+         <h:selectOneMenu id="q1" value="#{Survey.person.q1}" required="true"
+                          requiredMessage="First question needs to be answered">
+            <f:selectItem itemValue="" itemLabel="undefined" />
+            <f:selectItem itemValue="do 100 zł" itemLabel="do 100 zł" />
+            <f:selectItem itemValue="100-500 zł" itemLabel="100-500 zł" />
+            <f:selectItem itemValue="500-1000 zł" itemLabel="500-1000 zł" />
+            <f:selectItem itemValue="powyżej 1000 zł" itemLabel="powyżej 1000 zł" />
+         </h:selectOneMenu>
+
+         <br />
+
+         <h:outputLabel for="q2">Jak często dokonujesz zakupu ubrania?</h:outputLabel>
+         <h:selectOneMenu id="q2" value="#{Survey.person.q2}" required="true"
+                          requiredMessage="Second question needs to be answered">
+            <f:selectItem itemValue="" itemLabel="undefined" />
+            <f:selectItem itemValue="Codziennie" itemLabel="Codziennie" />
+            <f:selectItem itemValue="Raz w tygodniu" itemLabel="Raz w tygodniu" />
+            <f:selectItem itemValue="Raz w miesiącu" itemLabel="Raz w miesiącu" />
+            <f:selectItem itemValue="Kilka razy w roku" itemLabel="Kilka razy w roku" />
+         </h:selectOneMenu>
+
+         <br />
+
+         <h:outputLabel for="q3">W jakich kolorach preferujesz ubrania?</h:outputLabel>
+         <h:selectManyListbox id="q3" value="#{Survey.person.q3}" required="true"
+                          requiredMessage="Third question needs to be answered">
+            <f:selectItem itemValue="Kolorowo- jaskrawych" itemLabel="Kolorowo- jaskrawych" />
+            <f:selectItem itemValue="Stonowanych w szarościach" itemLabel="Stonowanych w szarościach" />
+            <f:selectItem itemValue="W czerni i bieli" itemLabel="W czerni i bieli" />
+            <f:selectItem itemValue="W samej czerni" itemLabel="W samej czerni" />
+         </h:selectManyListbox>
+
+         <br />
+
+            <h:panelGroup id="sexDependent2">
+               <h:panelGroup rendered="#{Survey.isMan()}">
+
+                  <h:outputLabel for="q4">Jakiego rodzaju ubrania najchętniej kupujesz?</h:outputLabel>
+                  <h:selectManyListbox id="q4" value="#{Survey.person.q4}" required="true"
+                                       requiredMessage="Fourth question needs to be answered">
+                     <f:selectItem itemValue="spodnie" itemLabel="spodnie" />
+                     <f:selectItem itemValue="spodenki" itemLabel="spodenki" />
+                     <f:selectItem itemValue="garnitury" itemLabel="garnitury" />
+                     <f:selectItem itemValue="koszule" itemLabel="koszule" />
+                     <f:selectItem itemValue="krawaty" itemLabel="krawaty" />
+                  </h:selectManyListbox>
+
+               </h:panelGroup>
+
+               <h:panelGroup rendered="#{Survey.isWoman()}">
+
+                  <h:outputLabel for="q5">Jakiego rodzaju ubrania najchętniej kupujesz?</h:outputLabel>
+                  <h:selectManyListbox id="q5" value="#{Survey.person.q4}" required="true"
+                                       requiredMessage="Fourth question needs to be answered">
+                     <f:selectItem itemValue="garsonki" itemLabel="garsonki" />
+                     <f:selectItem itemValue="bluzki" itemLabel="bluzki" />
+                     <f:selectItem itemValue="spódniczki" itemLabel="spódniczki" />
+                     <f:selectItem itemValue="spodnie" itemLabel="spodnie" />
+                  </h:selectManyListbox>
+
+               </h:panelGroup>
+            </h:panelGroup>
+
+         </h:panelGroup>
+      </h:panelGroup>
+
+      <br />
+
+      <h:messages style = "color:red;margin:8px;" />
+
+      <h:commandButton value="Submit" action="#{Survey.submit}" update="secondPhase thirdPhase"/>
+
+   </h:form>
+
+   <br />
+
+   <h:panelGroup id="clicks" >
+      Clicks: #{Survey.clicks}
+   </h:panelGroup>
+
+   <br />
+
+   <h:form>
+      <h:commandLink id="idNormandie" action="#{Survey.click}">
+         <h:graphicImage value="#{Survey.chooseImage()}" title="Normandie"/>
+         <f:param name="menuItem" value="Licht" />
+      </h:commandLink>
+   </h:form>
+
+
+</html>

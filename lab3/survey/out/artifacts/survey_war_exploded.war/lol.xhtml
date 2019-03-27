@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+   <h:head/>
+
+   Name: #{Survey.person.name} <br />
+   Email: #{Survey.person.email} <br />
+   Age: #{Survey.person.age} <br />
+   Sex: #{Survey.person.sex} <br />
+   Education: #{Survey.person.education} <br />
+   Height: #{Survey.person.height} <br />
+
+
+   <h:panelGroup rendered="#{Survey.isMan()}">
+      Chest: #{Survey.person.chest} <br />
+      Belly: #{Survey.person.belly} <br />
+   </h:panelGroup>
+
+   <h:panelGroup rendered="#{Survey.isWoman()}">
+      Breast: #{Survey.person.breast} <br />
+      CupSize: #{Survey.person.cupSize} <br />
+      Waist: #{Survey.person.waist} <br />
+      Hips: #{Survey.person.hips} <br />
+   </h:panelGroup>
+
+   Ile jesteś w stanie przeznaczyc miesięcznie na zakup ubrania?: #{Survey.person.q1} <br />
+   Jak często dokonujesz zakupu ubrania?: #{Survey.person.q2} <br />
+   W jakich kolorach preferujesz ubrania?: #{Survey.join(", ", Survey.person.q3)} <br />
+   Jakiego rodzaju ubrania najchętniej kupujesz?: #{Survey.join(", ", Survey.person.q4)} <br />
+
+   <br />
+
+   <h:panelGroup id="clicks" >
+      Clicks: #{Survey.clicks}
+   </h:panelGroup>
+
+   <br />
+
+   <h:form>
+      <h:commandLink id="idNormandie" action="#{Survey.click}">
+         <h:graphicImage value="#{Survey.chooseImage()}" title="Normandie"/>
+         <f:param name="menuItem" value="Licht" />
+      </h:commandLink>
+   </h:form>
+</html>
