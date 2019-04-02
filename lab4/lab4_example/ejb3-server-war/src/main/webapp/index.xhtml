@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
+    <h:head />
+    <h:body>
+        <h:form>
+        <h:dataTable id="table" value="#{CinemaView.places}" var="place">
+            <h:column>
+                <h:commandButton
+                        value="Buy"
+                        rendered="#{place.available}"
+                        action="#{CinemaView.buy(place.number)}"
+                >
+                    <f:ajax event="click" render="error balance @form" />
+                </h:commandButton>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Place nr</f:facet>
+                <h:outputText value="#{place.number}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">Price</f:facet>
+                <h:outputText value="#{place.price}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">is free?</f:facet>
+
+                <h:outputText value="yes" rendered="#{CinemaView.isPlaceAvailable(place.number)}" />
+                <h:outputText value="no" rendered="#{not CinemaView.isPlaceAvailable(place.number)}" />
+            </h:column>
+        </h:dataTable>
+        </h:form>
+        <h:panelGroup layout="block">
+            Your cash: <h:outputText id="balance" value="#{CinemaView.wallet}" />
+            <br />
+            <h:outputText id="error" style="color: red" value="#{CinemaView.error}" />
+        </h:panelGroup>
+    </h:body>
+</html>
