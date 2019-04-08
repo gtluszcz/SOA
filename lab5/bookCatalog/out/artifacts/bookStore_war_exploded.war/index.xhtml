@@ -16,46 +16,79 @@
                     <!-- column header -->
                     <f:facet name="header">Title</f:facet>
                     <!-- row record -->
-                    #{book.getTitle()}
+                    <h:inputText value="#{book.title}">
+                        <f:ajax event="blur" render="@form"/>
+                    </h:inputText>
                 </h:column>
 
                 <h:column>
                     <!-- column header -->
                     <f:facet name="header">Name</f:facet>
                     <!-- row record -->
-                    #{book.getName()}
+                    <h:inputText value="#{book.name}">
+                        <f:ajax event="blur" render="@form"/>
+                    </h:inputText>
                 </h:column>
 
                 <h:column >
                     <!-- column header -->
                     <f:facet name="header">Surname</f:facet>
                     <!-- row record -->
-                    #{book.getSurname()}
+                    <h:inputText value="#{book.surname}">
+                        <f:ajax event="blur" render="@form"/>
+                    </h:inputText>
                 </h:column>
 
                 <h:column>
                     <!-- column header -->
                     <f:facet name="header">Price</f:facet>
                     <!-- row record -->
-                    #{book.getPrice()}
+                    <h:inputText value="#{book.price}">
+                        <f:ajax event="blur" render="@form"/>
+                    </h:inputText>
                 </h:column>
 
                 <h:column >
                     <!-- column header -->
                     <f:facet name="header">ISBN</f:facet>
                     <!-- row record -->
-                    #{book.getISBN()}
+                    <h:inputText value="#{book.ISBN}">
+                        <f:ajax event="blur" render="@form"/>
+                    </h:inputText>
                 </h:column>
 
                 <h:column>
                     <!-- column header -->
                     <f:facet name="header">Realease Date</f:facet>
                     <!-- row record -->
-                    #{book.getReleaseDate()}
+                    <h:inputText value="#{book.releaseDate}">
+                        <f:ajax event="blur" render="@form"/>
+                    </h:inputText>
+                </h:column>
+
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Remove</f:facet>
+                    <!-- row record -->
+                    <h:commandButton action="#{Search.removeBook(book)}"  value="remove">
+                        <f:ajax event="click" render="@form"></f:ajax>
+                    </h:commandButton>
+                </h:column>
+
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Save</f:facet>
+                    <!-- row record -->
+                    <h:commandButton action="#{Search.updateBook(book)}"  value="save">
+                        <f:ajax event="click" render="@form"></f:ajax>
+                    </h:commandButton>
                 </h:column>
 
             </h:dataTable>
         </h:panelGroup>
+        <h:commandButton action="#{Search.addBook()}"  value="add">
+            <f:ajax event="click" render="@form"></f:ajax>
+        </h:commandButton>
     </h:form>
 </f:view>
 </html>
