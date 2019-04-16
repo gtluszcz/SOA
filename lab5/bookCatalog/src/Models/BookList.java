@@ -22,11 +22,6 @@ public class BookList {
       return em.createQuery("SELECT b FROM Book b").getResultList();
     }
 
-    public void addBook(Book newBook){
-        em.getTransaction().begin();
-        em.persist(newBook);
-        em.getTransaction().commit();
-    }
     public void removeBook(Book book) {
         em.getTransaction().begin();
         em.remove(book);

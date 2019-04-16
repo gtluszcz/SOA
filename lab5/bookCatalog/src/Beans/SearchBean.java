@@ -5,8 +5,6 @@ import Models.*;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,7 +20,7 @@ public class SearchBean {
 
     public void addBook() {
         Book book = new Book("","","",0,0,"");
-        bookList.addBook(book);
+        bookList.updateBook(book);
     }
 
     public void removeBook(Book book) {

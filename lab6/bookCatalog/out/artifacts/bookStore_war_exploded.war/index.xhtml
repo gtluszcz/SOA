@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+<h:head></h:head>
+<f:view>
+    Selected user: <h:outputText id="selectedUser"
+                                 value="#{''.concat(Search.selectedUser.firstName).concat(' ').concat(Search.selectedUser.lastName)}"/>
+    <br/>
+    Selected author: <h:outputText id="selectedAuthor"
+                                   value="#{''.concat(Search.selectedAuthor.firstName).concat(' ').concat(Search.selectedAuthor.lastName)}"/>
+    <br/>
+    Selected book: <h:outputText id="selectedBook"
+                                 value="#{Search.selectedBook.title}"/>
+
+    <div style="display: flex; flex-direction: column;">
+        <div style="display: flex; flex-direction: row; width: 100%;">
+            <!--BOOKS-->
+            <h:form style="margin: 20px">
+                <h:panelGroup id="searchBooksTable">
+                    <h3>Books</h3>
+                    <h:dataTable id="bookResults"
+                                 value="#{Search.bookRepo.getBooks()}"
+                                 var="book">
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Title</f:facet>
+                            <!-- row record -->
+                            <h:inputText value="#{book.title}">
+                                <f:ajax event="blur" render="@all"/>
+                            </h:inputText>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Author</f:facet>
+                            <!-- row record -->
+                            <p>#{''.concat(book.author.firstName).concat(' ').concat(book.author.lastName)}"</p>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Remove</f:facet>
+                            <!-- row record -->
+                            <h:commandButton
+                                    rendered="#{not book.hasLoans()}"
+                                    action="#{Search.removeBook(book)}"
+                                    value="remove">
+                                <f:ajax event="click"
+                                        render="@all selectedBook"></f:ajax>
+                            </h:commandButton>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Save</f:facet>
+                            <!-- row record -->
+                            <h:commandButton
+                                    action="#{Search.bookRepo.updateBook(book)}"
+                                    value="save">
+                                <f:ajax event="click" render="@all"></f:ajax>
+                            </h:commandButton>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Select</f:facet>
+                            <!-- row record -->
+                            <h:commandButton
+                                    action="#{Search.setSelectedBook(book)}"
+                                    value="select">
+                                <f:ajax event="click"
+                                        render="@all selectedBook"></f:ajax>
+                            </h:commandButton>
+                        </h:column>
+
+                    </h:dataTable>
+                </h:panelGroup>
+                <h:commandButton rendered="#{Search.selectedAuthor != null}"
+                                 action="#{Search.addBook()}" value="add">
+                    <f:ajax event="click" render="@all selectedAuthor"></f:ajax>
+                </h:commandButton>
+            </h:form>
+
+            <!--USERS-->
+            <h:form style="margin: 20px">
+                <h:panelGroup id="searchUsersTable">
+                    <h3>Users</h3>
+                    <h:dataTable id="userResults"
+                                 value="#{Search.userRepo.getUsers()}"
+                                 var="user">
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Name</f:facet>
+                            <!-- row record -->
+                            <h:inputText value="#{user.firstName}">
+                                <f:ajax event="blur" render="@all"/>
+                            </h:inputText>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Surname</f:facet>
+                            <!-- row record -->
+                            <h:inputText value="#{user.lastName}">
+                                <f:ajax event="blur" render="@all"/>
+                            </h:inputText>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Remove</f:facet>
+                            <!-- row record -->
+                            <h:commandButton
+                                    rendered="#{not user.hasLoans()}"
+                                    action="#{Search.removeUser(user)}"
+                                    value="remove">
+                                <f:ajax event="click"
+                                        render="@all selectedUser"></f:ajax>
+                            </h:commandButton>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Save</f:facet>
+                            <!-- row record -->
+                            <h:commandButton
+                                    action="#{Search.userRepo.updateUser(user)}"
+                                    value="save">
+                                <f:ajax event="click" render="@all"></f:ajax>
+                            </h:commandButton>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Select</f:facet>
+                            <!-- row record -->
+                            <h:commandButton
+                                    action="#{Search.setSelectedUser(user)}"
+                                    value="select">
+                                <f:ajax event="click"
+                                        render="@all selectedUser"></f:ajax>
+                            </h:commandButton>
+                        </h:column>
+
+                    </h:dataTable>
+                </h:panelGroup>
+                <h:commandButton action="#{Search.userRepo.addUser()}"
+                                 value="add">
+                    <f:ajax event="click" render="@all"></f:ajax>
+                </h:commandButton>
+            </h:form>
+        </div>
+        <div style="display: flex; flex-direction: row; width: 100%;">
+            <!--LOANS-->
+            <h:form style="margin: 20px">
+                <h:panelGroup id="searchLoansTable">
+                    <h3>Loans</h3>
+                    <h:dataTable
+                            id="loanResults"
+                            value="#{Search.loanRepo.getLoans()}"
+                            var="loan">
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">User</f:facet>
+                            <!-- row record -->
+                            <p>#{''.concat(loan.user.firstName).concat(' ').concat(loan.user.lastName)}</p>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Title</f:facet>
+                            <!-- row record -->
+                            <p>#{loan.book.title}</p>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Borrowed</f:facet>
+                            <!-- row record -->
+                            <p>#{loan.borrowed_at}</p>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Returned</f:facet>
+                            <!-- row record -->
+                            <p>#{loan.returned_at}</p>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Remove</f:facet>
+                            <!-- row record -->
+                            <h:commandButton
+                                    action="#{Search.loanRepo.removeLoan(loan)}"
+                                    value="remove">
+                                <f:ajax event="click" render="@all"></f:ajax>
+                            </h:commandButton>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Return</f:facet>
+                            <!-- row record -->
+                            <h:commandButton
+                                    action="#{Search.loanRepo.returnLoan(loan)}"
+                                    rendered="#{loan.returned_at == null}"
+                                    value="return">
+                                <f:ajax event="click" render="@all"></f:ajax>
+                            </h:commandButton>
+                        </h:column>
+
+                    </h:dataTable>
+                </h:panelGroup>
+                <h:commandButton
+                        rendered="#{Search.selectedUser != null and Search.selectedBook != null}"
+                        action="#{Search.addLoan()}" value="add">
+                    <f:ajax event="click" render="@all"></f:ajax>
+                </h:commandButton>
+            </h:form>
+
+            <!--AUTHORS-->
+            <h:form style="margin: 20px">
+                <h:panelGroup id="searchAuthorsTable">
+                    <h3>Authors</h3>
+                    <h:dataTable id="authorResults"
+                                 value="#{Search.authorRepo.getAuthors()}"
+                                 var="author">
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Name</f:facet>
+                            <!-- row record -->
+                            <h:inputText value="#{author.firstName}">
+                                <f:ajax event="blur" render="@all"/>
+                            </h:inputText>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Surname</f:facet>
+                            <!-- row record -->
+                            <h:inputText value="#{author.lastName}">
+                                <f:ajax event="blur" render="@all"/>
+                            </h:inputText>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Remove</f:facet>
+                            <!-- row record -->
+                            <h:commandButton
+                                    rendered="#{not author.hasBooks()}"
+                                    action="#{Search.removeAuthor(author)}"
+                                    value="remove">
+                                <f:ajax event="click"
+                                        render="@all selectedAuthor"></f:ajax>
+                            </h:commandButton>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Save</f:facet>
+                            <!-- row record -->
+                            <h:commandButton
+                                    action="#{Search.authorRepo.updateAuthor(author)}"
+                                    value="save">
+                                <f:ajax event="click" render="@all"></f:ajax>
+                            </h:commandButton>
+                        </h:column>
+
+                        <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Select</f:facet>
+                            <!-- row record -->
+                            <h:commandButton
+                                    action="#{Search.setSelectedAuthor(author)}"
+                                    value="select">
+                                <f:ajax event="click"
+                                        render="@all selectedAuthor"></f:ajax>
+                            </h:commandButton>
+                        </h:column>
+
+                    </h:dataTable>
+                </h:panelGroup>
+                <h:commandButton action="#{Search.authorRepo.addAuthor()}"
+                                 value="add">
+                    <f:ajax event="click" render="@all"></f:ajax>
+                </h:commandButton>
+            </h:form>
+        </div>
+    </div>
+</f:view>
+</html>
