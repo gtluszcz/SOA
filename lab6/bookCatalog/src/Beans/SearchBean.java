@@ -1,5 +1,6 @@
 package Beans;
 
+import Logic.MonsterQuery;
 import Models.*;
 import Repositories.AuthorRepository;
 import Repositories.BookRepository;
@@ -19,6 +20,7 @@ public class SearchBean {
     UserRepository userRepo = new UserRepository();
     LoanRepository loanRepo = new LoanRepository();
     AuthorRepository authorRepo = new AuthorRepository();
+    MonsterQuery monsterQuery = new MonsterQuery();
 
     User selectedUser;
     Author selectedAuthor;
@@ -48,6 +50,10 @@ public class SearchBean {
         loanRepo.addLoan(selectedUser, selectedBook);
         selectedUser = null;
         selectedBook = null;
+    }
+
+    public MonsterQuery getMonsterQuery() {
+        return monsterQuery;
     }
 
     public BookRepository getBookRepo() {

@@ -5,7 +5,9 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+      xmlns:p="http://java.sun.com/jsf/composite"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <h:head></h:head>
 <f:view>
     Selected user: <h:outputText id="selectedUser"
@@ -18,7 +20,7 @@
                                  value="#{Search.selectedBook.title}"/>
 
     <div style="display: flex; flex-direction: column;">
-        <div style="display: flex; flex-direction: row; width: 100%;">
+        <div style="display: flex; justify-content: space-between; flex-direction: row; width: 100%;">
             <!--BOOKS-->
             <h:form style="margin: 20px">
                 <h:panelGroup id="searchBooksTable">
@@ -40,7 +42,7 @@
                             <!-- column header -->
                             <f:facet name="header">Author</f:facet>
                             <!-- row record -->
-                            <p>#{''.concat(book.author.firstName).concat(' ').concat(book.author.lastName)}"</p>
+                            <p>#{''.concat(book.author.firstName).concat(' ').concat(book.author.lastName)}</p>
                         </h:column>
 
                         <h:column>
@@ -56,16 +58,16 @@
                             </h:commandButton>
                         </h:column>
 
-                        <h:column>
-                            <!-- column header -->
-                            <f:facet name="header">Save</f:facet>
-                            <!-- row record -->
-                            <h:commandButton
-                                    action="#{Search.bookRepo.updateBook(book)}"
-                                    value="save">
-                                <f:ajax event="click" render="@all"></f:ajax>
-                            </h:commandButton>
-                        </h:column>
+                        <!--<h:column>-->
+                            <!--&lt;!&ndash; column header &ndash;&gt;-->
+                            <!--<f:facet name="header">Save</f:facet>-->
+                            <!--&lt;!&ndash; row record &ndash;&gt;-->
+                            <!--<h:commandButton-->
+                                    <!--action="#{Search.bookRepo.updateBook(book)}"-->
+                                    <!--value="save">-->
+                                <!--<f:ajax event="click" render="@all"></f:ajax>-->
+                            <!--</h:commandButton>-->
+                        <!--</h:column>-->
 
                         <h:column>
                             <!-- column header -->
@@ -126,16 +128,16 @@
                             </h:commandButton>
                         </h:column>
 
-                        <h:column>
-                            <!-- column header -->
-                            <f:facet name="header">Save</f:facet>
-                            <!-- row record -->
-                            <h:commandButton
-                                    action="#{Search.userRepo.updateUser(user)}"
-                                    value="save">
-                                <f:ajax event="click" render="@all"></f:ajax>
-                            </h:commandButton>
-                        </h:column>
+                        <!--<h:column>-->
+                            <!--&lt;!&ndash; column header &ndash;&gt;-->
+                            <!--<f:facet name="header">Save</f:facet>-->
+                            <!--&lt;!&ndash; row record &ndash;&gt;-->
+                            <!--<h:commandButton-->
+                                    <!--action="#{Search.userRepo.updateUser(user)}"-->
+                                    <!--value="save">-->
+                                <!--<f:ajax event="click" render="@all"></f:ajax>-->
+                            <!--</h:commandButton>-->
+                        <!--</h:column>-->
 
                         <h:column>
                             <!-- column header -->
@@ -157,7 +159,7 @@
                 </h:commandButton>
             </h:form>
         </div>
-        <div style="display: flex; flex-direction: row; width: 100%;">
+        <div style="display: flex; justify-content: space-between; flex-direction: row; width: 100%;">
             <!--LOANS-->
             <h:form style="margin: 20px">
                 <h:panelGroup id="searchLoansTable">
@@ -266,16 +268,16 @@
                             </h:commandButton>
                         </h:column>
 
-                        <h:column>
-                            <!-- column header -->
-                            <f:facet name="header">Save</f:facet>
-                            <!-- row record -->
-                            <h:commandButton
-                                    action="#{Search.authorRepo.updateAuthor(author)}"
-                                    value="save">
-                                <f:ajax event="click" render="@all"></f:ajax>
-                            </h:commandButton>
-                        </h:column>
+                        <!--<h:column>-->
+                            <!--&lt;!&ndash; column header &ndash;&gt;-->
+                            <!--<f:facet name="header">Save</f:facet>-->
+                            <!--&lt;!&ndash; row record &ndash;&gt;-->
+                            <!--<h:commandButton-->
+                                    <!--action="#{Search.authorRepo.updateAuthor(author)}"-->
+                                    <!--value="save">-->
+                                <!--<f:ajax event="click" render="@all"></f:ajax>-->
+                            <!--</h:commandButton>-->
+                        <!--</h:column>-->
 
                         <h:column>
                             <!-- column header -->
@@ -298,5 +300,122 @@
             </h:form>
         </div>
     </div>
+
+    <h:form>
+        <div style="display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; flex-direction: row; width: 100%;">
+
+
+                <h:inputText value="#{Search.monsterQuery.authorFirstName}"
+                             a:placeholder="Authors first name">
+                    <f:ajax event="blur"/>
+                </h:inputText>
+
+
+                <h:inputText value="#{Search.monsterQuery.authorLastName}"
+                             a:placeholder="Authors last name">
+                    <f:ajax event="blur"/>
+                </h:inputText>
+
+                <h:inputText value="#{Search.monsterQuery.title}"
+                             a:placeholder="Book title">
+                    <f:ajax event="blur"/>
+                </h:inputText>
+
+                <h:inputText value="#{Search.monsterQuery.borrowed_from}"
+                             a:placeholder="Borrowed after">
+                    <f:ajax event="blur"/>
+                </h:inputText>
+
+                <h:inputText value="#{Search.monsterQuery.borrowed_to}"
+                             a:placeholder="Borrowed before">
+                    <f:ajax event="blur"/>
+                </h:inputText>
+
+                <h:inputText value="#{Search.monsterQuery.returned_form}"
+                             a:placeholder="Returned after">
+                    <f:ajax event="blur"/>
+                </h:inputText>
+
+                <h:inputText value="#{Search.monsterQuery.returned_to}"
+                             a:placeholder="Returned before">
+                    <f:ajax event="blur"/>
+                </h:inputText>
+
+                <h:inputText value="#{Search.monsterQuery.userFirstName}"
+                             a:placeholder="Users first name">
+                    <f:ajax event="blur"/>
+                </h:inputText>
+
+                <h:inputText value="#{Search.monsterQuery.userLastName}"
+                             a:placeholder="Users last name">
+                    <f:ajax event="blur"/>
+                </h:inputText>
+
+                <h:commandButton action="#{Search.monsterQuery.performQuery()}"
+                                 value="search">
+                    <f:ajax event="click" render="@form"></f:ajax>
+                </h:commandButton>
+            </div>
+            <h:panelGroup>
+                <h:dataTable
+                        style="text-align: center"
+                        value="#{Search.monsterQuery.result}"
+                        var="row">
+
+                    <h:column style="border: 1px solid #333">
+                        <!-- column header -->
+                        <f:facet name="header">User Name</f:facet>
+                        <!-- row record -->
+                        <p>#{row[0].firstName}</p>
+                    </h:column>
+
+                    <h:column style="border: 1px solid #333">
+                        <!-- column header -->
+                        <f:facet name="header">User Surname</f:facet>
+                        <!-- row record -->
+                        <p>#{row[0].lastName}</p>
+                    </h:column>
+
+                    <h:column style="border: 1px solid #333">
+                        <!-- column header -->
+                        <f:facet name="header">Borrowed at</f:facet>
+                        <!-- row record -->
+                        <p>#{row[3].borrowed_at}</p>
+                    </h:column>
+
+                    <h:column style="border: 1px solid #333">
+                        <!-- column header -->
+                        <f:facet name="header">Returned at</f:facet>
+                        <!-- row record -->
+                        <p>#{row[3].returned_at}</p>
+                    </h:column>
+
+                    <h:column style="border: 1px solid #333">
+                        <!-- column header -->
+                        <f:facet name="header">Title</f:facet>
+                        <!-- row record -->
+                        <p>#{row[2].title}</p>
+                    </h:column>
+
+                    <h:column style="border: 1px solid #333">
+                        <!-- column header -->
+                        <f:facet name="header">Author Name</f:facet>
+                        <!-- row record -->
+                        <p>#{row[1].firstName}</p>
+                    </h:column>
+
+                    <h:column style="border: 1px solid #333">
+                        <!-- column header -->
+                        <f:facet name="header">Author Surname</f:facet>
+                        <!-- row record -->
+                        <p>#{row[1].lastName}</p>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+        </div>
+    </h:form>
+
+
 </f:view>
 </html>

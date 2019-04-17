@@ -2,6 +2,7 @@ package Models;
 
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -55,16 +56,20 @@ public class Loan {
         this.book = book;
     }
 
-    public Date getBorrowed_at() {
-        return borrowed_at;
+    public String getBorrowed_at() {
+        if (borrowed_at == null) return null;
+        SimpleDateFormat dt1 = new SimpleDateFormat("yyyyy-mm-dd hh:mm:ss");
+        return dt1.format(borrowed_at);
     }
 
     public void setBorrowed_at(Date from) {
         this.borrowed_at = from;
     }
 
-    public Date getReturned_at() {
-        return returned_at;
+    public String getReturned_at() {
+        if (returned_at == null) return null;
+        SimpleDateFormat dt1 = new SimpleDateFormat("yyyyy-mm-dd hh:mm:ss");
+        return dt1.format(returned_at);
     }
 
     public void setReturned_at(Date to) {
