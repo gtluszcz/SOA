@@ -8,7 +8,38 @@
       xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
       xmlns:p="http://java.sun.com/jsf/composite"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
-<h:head></h:head>
+<h:head>
+    <style type="text/css">
+        .table{
+            padding: 30px;
+            border-radius: 4px;
+            background-color: white;
+        }
+        .searchfield{
+            padding: 20px;
+            background-color: ghostwhite;
+            align-items: center;
+            flex-wrap: wrap;
+            border-radius: 4px;
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: row;
+            margin-bottom: 10px;
+        }
+        body{
+            margin: 0;
+            background-color: ghostwhite;
+        }
+        .input{
+            border-radius: 10px;
+            margin: 5px;
+            height: 20px;
+            outline: none;
+            border-color: transparent;
+            text-align: center;
+        }
+    </style>
+</h:head>
 <f:view>
     Selected user: <h:outputText id="selectedUser"
                                  value="#{''.concat(Search.selectedUser.firstName).concat(' ').concat(Search.selectedUser.lastName)}"/>
@@ -26,6 +57,7 @@
                 <h:panelGroup id="searchBooksTable">
                     <h3>Books</h3>
                     <h:dataTable id="bookResults"
+                                 class="table"
                                  value="#{Search.bookRepo.getBooks()}"
                                  var="book">
 
@@ -42,7 +74,7 @@
                             <!-- column header -->
                             <f:facet name="header">Author</f:facet>
                             <!-- row record -->
-                            <p>#{''.concat(book.author.firstName).concat(' ').concat(book.author.lastName)}</p>
+                            <p class="input">#{''.concat(book.author.firstName).concat(' ').concat(book.author.lastName)}</p>
                         </h:column>
 
                         <h:column>
@@ -94,6 +126,7 @@
                 <h:panelGroup id="searchUsersTable">
                     <h3>Users</h3>
                     <h:dataTable id="userResults"
+                                 class="table"
                                  value="#{Search.userRepo.getUsers()}"
                                  var="user">
 
@@ -166,6 +199,7 @@
                     <h3>Loans</h3>
                     <h:dataTable
                             id="loanResults"
+                            class="table"
                             value="#{Search.loanRepo.getLoans()}"
                             var="loan">
 
@@ -173,28 +207,28 @@
                             <!-- column header -->
                             <f:facet name="header">User</f:facet>
                             <!-- row record -->
-                            <p>#{''.concat(loan.user.firstName).concat(' ').concat(loan.user.lastName)}</p>
+                            <p class="input">#{''.concat(loan.user.firstName).concat(' ').concat(loan.user.lastName)}</p>
                         </h:column>
 
                         <h:column>
                             <!-- column header -->
                             <f:facet name="header">Title</f:facet>
                             <!-- row record -->
-                            <p>#{loan.book.title}</p>
+                            <p class="input">#{loan.book.title}</p>
                         </h:column>
 
                         <h:column>
                             <!-- column header -->
                             <f:facet name="header">Borrowed</f:facet>
                             <!-- row record -->
-                            <p>#{loan.borrowed_at}</p>
+                            <p class="input">#{loan.borrowed_at}</p>
                         </h:column>
 
                         <h:column>
                             <!-- column header -->
                             <f:facet name="header">Returned</f:facet>
                             <!-- row record -->
-                            <p>#{loan.returned_at}</p>
+                            <p class="input">#{loan.returned_at}</p>
                         </h:column>
 
                         <h:column>
@@ -231,9 +265,10 @@
 
             <!--AUTHORS-->
             <h:form style="margin: 20px">
-                <h:panelGroup id="searchAuthorsTable">
+                <h:panelGroup id="searchAuthorsTable" >
                     <h3>Authors</h3>
                     <h:dataTable id="authorResults"
+                                 class="table"
                                  value="#{Search.authorRepo.getAuthors()}"
                                  var="author">
 
@@ -303,51 +338,51 @@
 
     <h:form>
         <div style="display: flex; flex-direction: column;">
-            <div style="display: flex; justify-content: space-between; flex-direction: row; width: 100%;">
+            <div class="searchfield">
 
 
-                <h:inputText value="#{Search.monsterQuery.authorFirstName}"
+                <h:inputText class="input" value="#{Search.monsterQuery.authorFirstName}"
                              a:placeholder="Authors first name">
                     <f:ajax event="blur"/>
                 </h:inputText>
 
 
-                <h:inputText value="#{Search.monsterQuery.authorLastName}"
+                <h:inputText class="input" value="#{Search.monsterQuery.authorLastName}"
                              a:placeholder="Authors last name">
                     <f:ajax event="blur"/>
                 </h:inputText>
 
-                <h:inputText value="#{Search.monsterQuery.title}"
+                <h:inputText class="input" value="#{Search.monsterQuery.title}"
                              a:placeholder="Book title">
                     <f:ajax event="blur"/>
                 </h:inputText>
 
-                <h:inputText value="#{Search.monsterQuery.borrowed_from}"
+                <h:inputText class="input" value="#{Search.monsterQuery.borrowed_from}"
                              a:placeholder="Borrowed after">
                     <f:ajax event="blur"/>
                 </h:inputText>
 
-                <h:inputText value="#{Search.monsterQuery.borrowed_to}"
+                <h:inputText class="input" value="#{Search.monsterQuery.borrowed_to}"
                              a:placeholder="Borrowed before">
                     <f:ajax event="blur"/>
                 </h:inputText>
 
-                <h:inputText value="#{Search.monsterQuery.returned_form}"
+                <h:inputText class="input" value="#{Search.monsterQuery.returned_form}"
                              a:placeholder="Returned after">
                     <f:ajax event="blur"/>
                 </h:inputText>
 
-                <h:inputText value="#{Search.monsterQuery.returned_to}"
+                <h:inputText class="input" value="#{Search.monsterQuery.returned_to}"
                              a:placeholder="Returned before">
                     <f:ajax event="blur"/>
                 </h:inputText>
 
-                <h:inputText value="#{Search.monsterQuery.userFirstName}"
+                <h:inputText class="input" value="#{Search.monsterQuery.userFirstName}"
                              a:placeholder="Users first name">
                     <f:ajax event="blur"/>
                 </h:inputText>
 
-                <h:inputText value="#{Search.monsterQuery.userLastName}"
+                <h:inputText class="input" value="#{Search.monsterQuery.userLastName}"
                              a:placeholder="Users last name">
                     <f:ajax event="blur"/>
                 </h:inputText>
@@ -359,6 +394,7 @@
             </div>
             <h:panelGroup>
                 <h:dataTable
+                        class="table"
                         style="text-align: center"
                         value="#{Search.monsterQuery.result}"
                         var="row">
@@ -367,49 +403,49 @@
                         <!-- column header -->
                         <f:facet name="header">User Name</f:facet>
                         <!-- row record -->
-                        <p>#{row[0].firstName}</p>
+                        <p class="input">#{row[0].firstName}</p>
                     </h:column>
 
                     <h:column style="border: 1px solid #333">
                         <!-- column header -->
                         <f:facet name="header">User Surname</f:facet>
                         <!-- row record -->
-                        <p>#{row[0].lastName}</p>
+                        <p class="input">#{row[0].lastName}</p>
                     </h:column>
 
                     <h:column style="border: 1px solid #333">
                         <!-- column header -->
                         <f:facet name="header">Borrowed at</f:facet>
                         <!-- row record -->
-                        <p>#{row[3].borrowed_at}</p>
+                        <p class="input">#{row[3].borrowed_at}</p>
                     </h:column>
 
                     <h:column style="border: 1px solid #333">
                         <!-- column header -->
                         <f:facet name="header">Returned at</f:facet>
                         <!-- row record -->
-                        <p>#{row[3].returned_at}</p>
+                        <p class="input">#{row[3].returned_at}</p>
                     </h:column>
 
                     <h:column style="border: 1px solid #333">
                         <!-- column header -->
                         <f:facet name="header">Title</f:facet>
                         <!-- row record -->
-                        <p>#{row[2].title}</p>
+                        <p class="input">#{row[2].title}</p>
                     </h:column>
 
                     <h:column style="border: 1px solid #333">
                         <!-- column header -->
                         <f:facet name="header">Author Name</f:facet>
                         <!-- row record -->
-                        <p>#{row[1].firstName}</p>
+                        <p class="input">#{row[1].firstName}</p>
                     </h:column>
 
                     <h:column style="border: 1px solid #333">
                         <!-- column header -->
                         <f:facet name="header">Author Surname</f:facet>
                         <!-- row record -->
-                        <p>#{row[1].lastName}</p>
+                        <p class="input">#{row[1].lastName}</p>
                     </h:column>
                 </h:dataTable>
             </h:panelGroup>
